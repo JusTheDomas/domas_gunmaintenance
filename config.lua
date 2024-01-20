@@ -12,7 +12,13 @@ Config.TimeIfBellow90 = 10000 -- How much cleaning will take if gun's wear is < 
 
 Config.InteractSound = true -- If you're using Interact sound (https://github.com/plunkettscott/interact-sound)
 Config.CleaningSounds = true
-Config.Debug = false
+Config.ISVolumeJam = 0.5 -- Interact sound volume for jam
+Config.ISVolumeCleaning = 0.3 -- Interact sound volume for Cleaning
+Config.Debug = true
+
+Config.Framework = 'qb' -- 'ox' or 'qb'
+
+Config.VersionCheck = true
 
 -- Jamming System
 
@@ -68,30 +74,47 @@ Config.JamType3Min = 7000 -- How much time at minimum will third jam take
 
 -- Notify System
 
+local ESX = nil
+local QBCore = nil
+
+if Config.Framework == 'ox' then
+    ESX = exports["es_extended"]:getSharedObject()
+elseif Config.Framework == 'qb' then
+    QBCore = exports['qb-core']:GetCoreObject()
+end
+    
 function NotifyError(text)
-    lib.notify({
-        id = 'some_identifier',
-        title = 'Weapon System',
-        description = text,
-        position = 'top-right',
-        style = {
-            backgroundColor = '#141517',
-            color = '#C1C2C5',
-            ['.description'] = {
-              color = '#909296'
-            }
-        },
-        icon = 'triangle-exclamation',
-        iconColor = '#C53030'
-    })
+    if Config.Framework == 'ox' then
+        lib.notify({
+            id = 'some_identifier',
+            title = 'Weapons',
+            description = text,
+            position = 'top',
+            style = {
+                backgroundColor = '#141517',
+                color = '#C1C2C5',
+                ['.description'] = {
+                color = '#909296'
+                }
+            },
+            icon = 'triangle-exclamation',
+            iconColor = '#C53030'
+        })
+    else
+        QBCore.Functions.Notify({text = 'Weapons', caption = text}, 'error', 5000)
+    end
 end
 
 function Notify(text)
-    lib.notify({
-        title = 'Weapon System',
-        description = text,
-        type = 'info'
-    })
+    if Config.Framework == 'ox' then
+        lib.notify({
+            title = 'Weapons',
+            description = text,
+            type = 'info'
+        })
+    else
+        QBCore.Functions.Notify({text = 'Weapons', caption = text}, 'error', 5000)
+    end
 end
 
 Config.Text = {
@@ -100,6 +123,8 @@ Config.Text = {
     ['half_cleaned'] = 'You partially cleaned the weapon',
     ['full_clean'] = 'You fully cleaned the weapon',
     ['weapon_jammed'] = 'Gun jammed! Press [E] to fix it',
+    ['CanceledFixing'] = 'You canceled fixing',
+    ['PrepairingToClean'] = 'Preparing',
 
 
     -- Weapon issues causes:
@@ -109,25 +134,24 @@ Config.Text = {
     ['weapon_jammed3'] = 'Clearing the chamber'
 }
 
-
-
-
-
-
-
-
 -- For my Lithuanian brothers
--- Config.Text = {
---     ['no_weapon'] = 'Manau man reikėtų laikyti ginklą',
---     ['canceled'] = 'Atšaukėte ginklo valymą',
---     ['half_cleaned'] = 'Pusiau išvalėte ginklą',
---     ['full_clean'] = 'Pilnai išvalėte ginklą',
---     ['weapon_jammed'] = 'Ginklas užstrigo! Spausk [E] norėdamas jį atstrigdinti',
+
+--[[
+    Config.Text = {
+    ['no_weapon'] = 'Manau man reikėtų laikyti ginklą',
+    ['canceled'] = 'Atšaukėte ginklo valymą',
+    ['half_cleaned'] = 'Pusiau išvalėte ginklą',
+    ['full_clean'] = 'Pilnai išvalėte ginklą',
+    ['weapon_jammed'] = 'Ginklas užstrigo! Spausk [E] norėdamas jį atstrigdinti',
+    ['CanceledFixing'] = 'Atšaukei strigimo tvarkymą',
+    ['PrepairingToClean'] = 'Pasiruoši valymui',
 
 
---     -- Weapon issues causes:
+    -- Weapon issues causes:
 
---     ['weapon_jammed1'] = 'Pertrauki spyną',
---     ['weapon_jammed2'] = 'Krapštai įtrigusią tūtą uokse',
---     ['weapon_jammed3'] = 'Krapštai įtrigusią tūtą šovinio lizde'
--- }
+    ['weapon_jammed1'] = 'Pertrauki spyną',
+    ['weapon_jammed2'] = 'Krapštai įtrigusią tūtą uokse',
+    ['weapon_jammed3'] = 'Krapštai įtrigusią tūtą šovinio lizde'
+}
+
+]]
