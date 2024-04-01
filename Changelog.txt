@@ -1,3 +1,4 @@
 * Added specific weapon modifiers
 * Fixed issue with multi-framework support
 * Added changelog
+* Fixed config file
