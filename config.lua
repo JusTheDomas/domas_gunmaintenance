@@ -53,6 +53,14 @@ Config.ignoredWeaponHashes = { -- Weapons that will not jam.
     [GetHashKey("weapon_railgunxm3")] = true,
 }
 
+Config.EnableSpecificWeaponModifier = true
+
+Config.SpecificWeaponModifier = {
+    [GetHashKey("weapon_specialcarbine")] = 3,
+    [GetHashKey("weapon_carbinerifle")] = 100,
+    [GetHashKey("weapon_pistol")] = 50,
+}
+
 
 Config.JamChangeAbove95 = 0.1
 Config.JamChangeAbove90 = 0.2
