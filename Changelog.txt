@@ -1,4 +1,3 @@
-* Added specific weapon modifiers
-* Fixed issue with multi-framework support
-* Added changelog
-* Fixed config file
+* QB-Core users now will be able to use Ox_Inventory
+* Cleaned code for better performance
+* Make sure to replace whole script when updating
