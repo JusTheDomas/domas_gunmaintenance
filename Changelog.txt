@@ -1,3 +1,4 @@
-* QB-Core users now will be able to use Ox_Inventory
-* Cleaned code for better performance
-* Make sure to replace whole script when updating
+* QB-Core users now will be able to use Ox_Inventory.
+* Cleaned code for better performance.
+* Make sure to replace whole script when updating.
+* QS inventory partly supported, but currently not working.
