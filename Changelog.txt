@@ -2,3 +2,6 @@
 * Cleaned code for better performance.
 * Make sure to replace whole script when updating.
 * QS inventory partly supported, but currently not working.
+* Added custom skillbar function (editable)
+* Added custom progressbar function (editable)
+* Turn on/off skillbar & progress bar
