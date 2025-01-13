@@ -16,14 +16,24 @@ Config.ISVolumeJam = 0.5 -- Interact sound volume for jam
 Config.ISVolumeCleaning = 0.3 -- Interact sound volume for Cleaning
 Config.Debug = true
 
-Config.Framework = 'qb' -- 'ox' or 'qb'
+
+Config.SkillBar = false -- setting this to false, will disable cleaning sound
+Config.SkillBarType = 'ox' -- Options: 'ox', 'qb', 'custom'
+Config.ProgressBar = true -- setting this to false, will isable cleaning sound
+Config.ProgressBarType = 'ox' -- Options: 'ox', 'qb', 'custom'
+
+Config.Framework = 'qb' -- 'esx' or 'qb'
+Config.Inventory = 'ox' -- ox/qb/qs
+
+Config.JamType1SkillLevels = {'easy', 'easy', 'easy'}
+Config.JamType2SkillLevels = {'easy', 'medium', 'easy'}
+Config.JamType3SkillLevels = {'easy', 'hard', 'easy'}
 
 Config.VersionCheck = true
 
 -- Jamming System
 
 Config.ignoredWeaponHashes = { -- Weapons that will not jam.
-
     [GetHashKey("weapon_grenade")] = true,
     [GetHashKey("weapon_bzgas")] = true,
     [GetHashKey("weapon_molotov")] = true,
@@ -52,13 +62,12 @@ Config.ignoredWeaponHashes = { -- Weapons that will not jam.
     [GetHashKey("weapon_emplauncher")] = true,
     [GetHashKey("weapon_railgunxm3")] = true,
 }
-
 Config.EnableSpecificWeaponModifier = true
 
 Config.SpecificWeaponModifier = {
-    [GetHashKey("weapon_specialcarbine")] = 3,
-    [GetHashKey("weapon_carbinerifle")] = 100,
-    [GetHashKey("weapon_pistol")] = 50,
+    [GetHashKey("weapon_snspistol")] = 2,
+    [GetHashKey("weapon_combatpistol")] = 2,
+    [GetHashKey("weapon_pistol")] = 2,
 }
 
 
@@ -74,25 +83,25 @@ Config.JamChangeBellow30 = 10.9
 Config.JamType1Max = 3000 -- How much time at maximum will first jam take
 Config.JamType1Min = 1000 -- How much time at minimum will first jam take
 
-Config.JamType2Max = 3000 -- How much time at maximum will second jam take
-Config.JamType2Min = 5000 -- How much time at minimum will second jam take
+Config.JamType2Max = 5000 -- How much time at maximum will second jam take
+Config.JamType2Min = 3000 -- How much time at minimum will second jam take
 
-Config.JamType3Max = 5000 -- How much time at maximum will third jam take
-Config.JamType3Min = 7000 -- How much time at minimum will third jam take
+Config.JamType3Max = 7000 -- How much time at maximum will third jam take
+Config.JamType3Min = 5000 -- How much time at minimum will third jam take
 
 -- Notify System
 
 local ESX = nil
 local QBCore = nil
 
-if Config.Framework == 'ox' then
+if Config.Framework == 'esx' then
     ESX = exports["es_extended"]:getSharedObject()
-elseif Config.Framework == 'qb' then
+else 
     QBCore = exports['qb-core']:GetCoreObject()
 end
     
 function NotifyError(text)
-    if Config.Framework == 'ox' then
+    if Config.Framework == 'esx' then
         lib.notify({
             id = 'some_identifier',
             title = 'Weapons',
@@ -114,7 +123,7 @@ function NotifyError(text)
 end
 
 function Notify(text)
-    if Config.Framework == 'ox' then
+    if Config.Framework == 'esx' then
         lib.notify({
             title = 'Weapons',
             description = text,
@@ -124,6 +133,9 @@ function Notify(text)
         QBCore.Functions.Notify({text = 'Weapons', caption = text}, 'error', 5000)
     end
 end
+
+-- exports['Domas_GunMaintenance']:FixWeapon() -- Fixes current weapon (clears the jam)
+-- exports['Domas_GunMaintenance']:IsWeaponJammed() -- Check if current weapon is jammed
 
 Config.Text = {
     ['no_weapon'] = 'I think I need to hold a weapon',
