@@ -1,1 +1,1 @@
-* Fixed performance issues that occured in PvP/Zombie servers
+* Added more customization
