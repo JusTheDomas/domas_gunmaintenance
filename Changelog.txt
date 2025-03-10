@@ -1,1 +1,1 @@
-* Added more customization
+* Added PlaySound function to editable.lua - Use any sound system to play sounds!
