@@ -1,1 +1,2 @@
-* Added PlaySound function to editable.lua - Use any sound system to play sounds!
+* Added NUI overlay for jammed weapons
+* Added Config.DisplayJammerText toggle
